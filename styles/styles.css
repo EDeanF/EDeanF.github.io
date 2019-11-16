@@ -1,0 +1,9 @@
+/* basic styling */
+body {
+    padding-top: 5rem;
+  }
+/* classes */
+.main-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }

@@ -1,39 +1,57 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
-    <!-- Required meta tags -->
+    <!-- Required meta tags for Boostrap -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    
+    <!-- page head -->
     <title>EDF Personal Page</title>
-    <meta name="description" content="">
     <meta name="author" content="E-Dean Fung">
+    <meta name="description" content="">
+    <!-- internal links -->
     <link rel="stylesheet" href="styles/styles.css">
   </head>
-  <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="/">EDF</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-               </li>
-            </ul>
-        </div>  
-    </nav>
-      
-    <main role="main" class="container">
-        <div class="main-template">
-          <h1>Hello, World!</h1>
-          <p>This is my first real website<br>So excited!!!</p>
+  <body class="d-flex flex-column h-100">
+    <!-- Bootstrap navbar -->
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="/">EDF</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="">About Me</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="">Projects</a>
+                  </li>
+                </ul>
+            </div>  
+        </nav>    
+    </header>
+    
+    <!-- page content -->
+    <main role="main" class="flex-shrink-0">
+        <div class="container">
+            <img src="images/home_image_edit.jpg" class="img-fluid rounded-circle">
         </div>
-      
     </main>
+    
+    <!-- Bootstrap footer-->
+    <footer class="footer mt-auto py-3">
+        <div class="container">
+          <span class="text-muted">2019</span>
+        </div>
+    </footer>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

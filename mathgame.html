@@ -89,8 +89,8 @@
                         </div>
                     </div>
                     <div class="my-3">
-                        <h4>Number of Digits</h4>
-                        <input type="number" class="form-control w-50" min="1" max="4" value="1" id="num-dig">
+                        <h4>Max Number</h4>
+                        <input type="number" class="form-control w-50" min="1" max="1000" value="10" id="max-num">
                     </div>
                     <div class="my-3">
                         <button type="button" class="btn btn-primary btn-lg" id="start-button">START</button>
@@ -110,7 +110,7 @@
                     <h1 class="text-right" id="top-line">0</h1>
                     <h1 class="text-right" id="bottom-line">+0</h1>
                     <hr>
-                    <input type="text" class="form-control" id="guess">
+                    <input type="text" class="form-control text-right" id="guess">
                   </div>
                 </div>
               </div>
@@ -121,8 +121,8 @@
                     <h1>Results</h1>
                     <hr>
                     <div class="my-3">
-                        <h5><strong>Average Time: </strong><span id="avg-time">0</span></h5>
-                        <h5><strong>Total Answered: </strong><span id="total-ans">0</span></h5>
+                        <h5><strong>Average Time: </strong><span class="text-right" id="avg-time">0</span></h5>
+                        <h5><strong>Total Answered: </strong><span class="text-right" id="total-ans">0</span></h5>
                     </div>
                     <div class="my-3">
                         <button type="button" class="btn btn-danger btn-lg" id="stop-button">STOP</button>

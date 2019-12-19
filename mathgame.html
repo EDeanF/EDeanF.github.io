@@ -43,7 +43,7 @@
     <!-- page content -->
     <main role="main">
 
-        <div class="container py-5">
+        <div class="container py-5" id="setup-panels">
             <div class="row">
 
               <div class="col-md-4">
@@ -64,48 +64,53 @@
                     <div class="my-3">
                         <h4>Select Operations</h4>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">
+                            <input class="form-check-input" type="checkbox" value="" id="add-check">
+                            <label class="form-check-label" for="add-check">
                               Addition
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">
+                            <input class="form-check-input" type="checkbox" value="" id="sub-check">
+                            <label class="form-check-label" for="sub-check">
                               Subtraction
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">
+                            <input class="form-check-input" type="checkbox" value="" id="mul-check">
+                            <label class="form-check-label" for="mul-check">
                               Multiplication
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">
+                            <input class="form-check-input" type="checkbox" value="" id="div-check">
+                            <label class="form-check-label" for="div-check">
                               Division
                             </label>
                         </div>
                     </div>
                     <div class="my-3">
                         <h4>Number of Digits</h4>
-                        <input type="number" class="form-control w-50" min="1" max="4" value="1">
+                        <input type="number" class="form-control w-50" min="1" max="4" value="1" id="num-dig">
                     </div>
                     <div class="my-3">
-                        <button type="button" class="btn btn-primary btn-lg">START</button>
+                        <button type="button" class="btn btn-primary btn-lg" id="start-button">START</button>
                     </div>
                   </div>
                 </div>
               </div>
 
+            </div>
+          </div>
+
+          <div class="container py-5" id="game-panels" style="display: none">
+            <div class="row">
               <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                   <div class="card-body">
-                    <h1 class="text-right">0</h1>
-                    <h1 class="text-right">+0</h1>
+                    <h1 class="text-right" id="top-line">0</h1>
+                    <h1 class="text-right" id="bottom-line">+0</h1>
                     <hr>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" id="guess">
                   </div>
                 </div>
               </div>
@@ -115,6 +120,13 @@
                   <div class="card-body">
                     <h1>Results</h1>
                     <hr>
+                    <div class="my-3">
+                        <h5><strong>Average Time: </strong><span id="avg-time">0</span></h5>
+                        <h5><strong>Total Answered: </strong><span id="total-ans">0</span></h5>
+                    </div>
+                    <div class="my-3">
+                        <button type="button" class="btn btn-danger btn-lg" id="stop-button">STOP</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -136,5 +148,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+    <script src="scripts/mathgame.js"></script>
+</body>
 </html>

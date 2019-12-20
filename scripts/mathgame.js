@@ -1,9 +1,20 @@
-let Num1, Num2, op, Ans;
-let op_symbol, opList=[];
+// global variables
+let Num1, Num2, Ans;
+let op_symbol, opList=[], op;
 let DoAdd, DoSub, DoMul, DoDiv;
 let AddCount, SubCount, MultCount, DivCount, TotalCount;
 let AddAvg, SubAvg, MultAvg, DivAvg, TotalAvg;
-let t1,t2;
+let t1, t2;
+let MaxNum;
+
+// Reinforcement Learning 
+let score;
+let lr = 1;
+
+const AddQ = new PriorityQueue();
+const SubQ = new PriorityQueue();
+const MulQ = new PriorityQueue();
+const DivQ = new PriorityQueue();
 
 // setup panel objects
 const SetupPanels = document.getElementById('setup-panels');
@@ -11,7 +22,7 @@ const AddCheck = document.getElementById('add-check');
 const SubCheck = document.getElementById('sub-check');
 const MulCheck = document.getElementById('mul-check');
 const DivCheck = document.getElementById('div-check');
-const MaxNum = document.getElementById('max-num')
+const MaxNumInput = document.getElementById('max-num')
 const StartGameButton = document.getElementById('start-button');
 
 // game panel objects
@@ -30,32 +41,32 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; 
 }
 
-function GenerateNumbers(){
-    let op = opList[getRandomInt(0,opList.length)];
+function GenerateNumbers_old(){
+    op = opList[getRandomInt(0,opList.length)];
 
     switch(op){
         case 0:
             op_symbol = String.fromCharCode(43);
-            Num1=getRandomInt(1,MaxNum.value);
-            Num2=getRandomInt(1,MaxNum.value);
+            Num1=getRandomInt(1,MaxNum);
+            Num2=getRandomInt(1,MaxNum);
             Ans=Num1+Num2;
             break;
         case 1:
             op_symbol = String.fromCharCode(45);
-            Num1=getRandomInt(2,MaxNum.value);
+            Num1=getRandomInt(2,MaxNum);
             Num2=getRandomInt(1,Num1-1);
             Ans=Num1-Num2;
             break;
         case 2:
             op_symbol = String.fromCharCode(215);
-            Num1=getRandomInt(2,MaxNum.value);
-            Num2=getRandomInt(2,MaxNum.value);
+            Num1=getRandomInt(2,MaxNum);
+            Num2=getRandomInt(2,MaxNum);
             Ans=Num1*Num2;
             break;
         case 3:
             op_symbol = String.fromCharCode(247);
-            Ans=getRandomInt(2,Math.floor(MaxNum.value/2));
-            Num2=getRandomInt(2,Math.floor(MaxNum.value/Ans));
+            Ans=getRandomInt(2,Math.floor(MaxNum/2));
+            Num2=getRandomInt(2,Math.floor(MaxNum/Ans));
             Num1=Ans*Num2;
             break;
     }
@@ -66,12 +77,76 @@ function GenerateNumbers(){
     t1=performance.now();
 }
 
+function GenerateNumbers(){
+    op = opList[getRandomInt(0,opList.length)];
+    let store;
+    switch(op){
+        case 0:
+            op_symbol = String.fromCharCode(43);
+            [score,Num1,Num2] = AddQ.pop();
+            Ans=Num1+Num2;
+            break;
+        case 1:
+            op_symbol = String.fromCharCode(45);
+            [score,Num1,Num2] = SubQ.pop();
+            Ans=Num1-Num2;
+            break;
+        case 2:
+            op_symbol = String.fromCharCode(215);
+            [score,Num1,Num2] = MulQ.pop();
+            Ans=Num1*Num2;
+            break;
+        case 3:
+            op_symbol = String.fromCharCode(247);
+            [score,Num1,Num2] = DivQ.pop();
+            Ans = Num1/Num2;
+            break;
+    }
+    console.log(score);
+    // [Num1,Num2] = [Math.max(Num1,Num2),Math.max(Num1,Num2)]
+    // console.log(Num1,Num2);
+    TopLine.textContent = Math.max(Num1,Num2);
+    BottomLine.textContent = op_symbol+' '+Math.min(Num1,Num2);
+    GuessInput.value='';
+    GuessInput.select();
+    t1=performance.now();
+}
+
+function InitQueues(){
+    AddQ.clear();
+    SubQ.clear();
+    MulQ.clear();
+    DivQ.clear();
+    
+    for(let i=1; i<=MaxNum; i++){
+        for(let j=i; j<=MaxNum; j++){
+            AddQ.push([getRandomInt(10000,100000),j,i]);
+        }
+    }
+    for(let i=1; i<=MaxNum; i++){
+        for(let j=i+1; j<=MaxNum; j++){
+            SubQ.push([getRandomInt(10000,100000),j,i]);
+        }
+    }
+    for(let i=2; i<=MaxNum; i++){
+        for(let j=i; j<=MaxNum; j++){
+            MulQ.push([getRandomInt(10000,100000),j,i]);
+        }
+    }
+    for(let i=2; i<=Math.floor(MaxNum/2); i++){
+        for(let j=i; j<=Math.floor(MaxNum/i); j++){
+            DivQ.push([getRandomInt(10000,100000),i*j,j]);
+        }
+    }
+}
+
 function StartGame(){
     DoAdd = AddCheck.checked;
     DoSub = SubCheck.checked;
     DoMul = MulCheck.checked;
     DoDiv = DivCheck.checked;
     // initialize values
+    MaxNum = MaxNumInput.value;
     TotalAvg=0;
     TotalCount=0;
     opList.length=0;
@@ -83,6 +158,9 @@ function StartGame(){
     if(opList.length==0){
         opList.push(0,1,2,3);
     }
+    
+    InitQueues();
+
     // show-hide panels
     SetupPanels.style.display = 'none';
     GamePanels.style.display = 'block';
@@ -108,6 +186,20 @@ function StopGame(){
 function CheckAnswer(){
     if(GuessInput.value==Ans){
         t2=performance.now();
+        switch(op){
+            case 0:
+                AddQ.push([Math.trunc(t2-t1),Math.max(Num1,Num2),Math.min(Num1,Num2)])
+                break;
+            case 1:
+                SubQ.push([Math.trunc(t2-t1),Math.max(Num1,Num2),Math.min(Num1,Num2)])
+                break;
+            case 2:
+                MulQ.push([Math.trunc(t2-t1),Math.max(Num1,Num2),Math.min(Num1,Num2)])
+                break;
+            case 3:
+                DivQ.push([Math.trunc(t2-t1),Math.max(Num1,Num2),Math.min(Num1,Num2)])
+                break;
+        }
         TotalAvg = (TotalAvg*TotalCount+t2-t1)/(TotalCount+1)/1000;
         TotalCount+=1;
         AvgTimeLine.textContent = Math.trunc(TotalAvg*100)/100+' s';

@@ -18,23 +18,8 @@ const SubQ = new PriorityQueue();
 const MulQ = new PriorityQueue();
 const DivQ = new PriorityQueue();
 
-// setup panel objects
-const SetupPanels = document.getElementById('setup-panels');
-const AddCheck = document.getElementById('add-check');
-const SubCheck = document.getElementById('sub-check');
-const MulCheck = document.getElementById('mul-check');
-const DivCheck = document.getElementById('div-check');
-const MaxNumInput = document.getElementById('max-num')
-const StartGameButton = document.getElementById('start-button');
-
-// game panel objects
-const GamePanels = document.getElementById('game-panels');
-const TopLine = document.getElementById('top-line')
-const BottomLine = document.getElementById('bottom-line');
+// guess input object
 const GuessInput = document.getElementById('guess')
-const StopGameButton = document.getElementById('stop-button');
-const AvgTimeLine = document.getElementById('avg-time');
-const TotalCountLine = document.getElementById('total-ans')
 
 function getRandomInt(min, max) {
     //The maximum is exclusive and the minimum is inclusive
@@ -72,10 +57,10 @@ function GenerateRandomNumbers(){
             Num1=Ans*Num2;
             break;
     }
-    TopLine.textContent = Math.max(Num1,Num2);
-    BottomLine.textContent = op_symbol+' '+Math.min(Num1,Num2);
-    GuessInput.value='';
-    GuessInput.select();
+    $("#top-line").text(Math.max(Num1,Num2).toString());
+    $("#bottom-line").text(op_symbol+' '+Math.min(Num1,Num2));
+    $("#guess").val('');
+    $("#guess").select();
     t1=performance.now();
 }
 
@@ -123,13 +108,10 @@ function GenerateNumbers(){
             break;
     }
     [Num1,Num2] = [Math.max(Num1,Num2),Math.min(Num1,Num2)]
-    TopLine.textContent = Num1.toString();
-    BottomLine.textContent = op_symbol+' '+Num2;
-    // console.log(Num1,Num2);
-    //TopLine.textContent = Math.max(Num1,Num2);
-    //BottomLine.textContent = op_symbol+' '+Math.min(Num1,Num2);
-    GuessInput.value='';
-    GuessInput.select();
+    $("#top-line").text(Num1.toString());
+    $("#bottom-line").text(op_symbol+' '+Num2);
+    $("#guess").val('');
+    $("#guess").select();
     t1=performance.now();
 }
 
@@ -162,12 +144,13 @@ function InitQueues(){
 }
 
 function StartGame(){
-    DoAdd = AddCheck.checked;
-    DoSub = SubCheck.checked;
-    DoMul = MulCheck.checked;
-    DoDiv = DivCheck.checked;
+    DoAdd = $("#add-check").val();
+    DoSub = $("#sub-check").val();
+    DoMul = $("#mul-check").val();
+    DoDiv = $("#div-check").val();
+    
     // initialize values
-    MaxNum = MaxNumInput.value;
+    MaxNum = $("#max-num").val();
     TotalAvg=0;
     TotalCount=0;
     opList.length=0;
@@ -182,26 +165,25 @@ function StartGame(){
     
     InitQueues();
 
-    // show-hide panels
-    SetupPanels.style.display = 'none';
-    GamePanels.style.display = 'block';
-    StartGameButton.removeEventListener('click',StartGame);
-    StopGameButton.addEventListener('click', StopGame);
-    GuessInput.addEventListener('input',CheckAnswer);
-    AvgTimeLine.textContent = TotalAvg;
-    TotalCountLine.textContent = TotalCount;
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+    $("#setup-panels").hide();
+    $("#game-panels").show();
+    $("#start-button").off("click");
+    $("#stop-button").click(StopGame);
+    $("#guess").on("input",CheckAnswer);
+
+    $("#avg-time").text(TotalAvg.toString());
+    $("#total-ans").text(TotalCount);
+    $(document).scrollTop();
     GenerateNumbers();
 }
 
 function StopGame(){
-    // show-hide panels
-    SetupPanels.style.display = 'block';
-    GamePanels.style.display = 'none';
-    StopGameButton.removeEventListener('click', StopGame);
-    GuessInput.removeEventListener('input',CheckAnswer);
-    StartGameButton.addEventListener('click',StartGame);
+    $("#game-panels").hide();
+    $("#setup-panels").show();
+    $("#stop-button").off("click");
+    $("#guess").off("input");
+    $("#start-button").click(StartGame);
 }
 
 function CheckAnswer(){
@@ -224,12 +206,14 @@ function CheckAnswer(){
         //console.log(t2-t1);
         TotalAvg = (TotalAvg*TotalCount+t2-t1)/(TotalCount+1);
         TotalCount+=1;
-        AvgTimeLine.textContent = Math.trunc(TotalAvg*100)/100+' ms';
-        TotalCountLine.textContent = TotalCount;
+        $("#avg-time").text(Math.trunc(TotalAvg*100)/100+' ms');
+        $("#total-ans").text(TotalCount);
         GenerateNumbers();
     }else if(GuessInput.value.length>Ans.toString().length){
         GuessInput.value='';
     }
 }
 
-StartGameButton.addEventListener('click', StartGame);
+$(function(){
+    $("#start-button").click(StartGame);
+})

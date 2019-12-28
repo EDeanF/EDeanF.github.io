@@ -7,6 +7,8 @@ let AddAvg, SubAvg, MultAvg, DivAvg, TotalAvg;
 let t1, t2;
 let MaxNum;
 
+let AddMatrix, SubMatrix, MultMatrix, DivMatrix;
+
 // Reinforcement Learning 
 let score;
 let lr = 1;
@@ -41,7 +43,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; 
 }
 
-function GenerateNumbers_old(){
+function GenerateRandomNumbers(){
     op = opList[getRandomInt(0,opList.length)];
 
     switch(op){
@@ -80,33 +82,52 @@ function GenerateNumbers_old(){
 function GenerateNumbers(){
     op = opList[getRandomInt(0,opList.length)];
     let store;
+    let Num1_old=Num1;
+    let Num2_old=Num2;
     switch(op){
         case 0:
             op_symbol = String.fromCharCode(43);
             [score,Num1,Num2] = AddQ.pop();
+            if(Num1==Num1_old && Num2==Num2_old){
+                [score,Num1,Num2] = AddQ.pop();
+                AddQ.push([Math.trunc(t2-t1),Num1_old,Num2_old]);
+            }
             Ans=Num1+Num2;
             break;
         case 1:
             op_symbol = String.fromCharCode(45);
             [score,Num1,Num2] = SubQ.pop();
+            if(Num1==Num1_old && Num2==Num2_old){
+                [score,Num1,Num2] = SubQ.pop();
+                SubQ.push([Math.trunc(t2-t1),Num1_old,Num2_old]);
+            }
             Ans=Num1-Num2;
             break;
         case 2:
             op_symbol = String.fromCharCode(215);
             [score,Num1,Num2] = MulQ.pop();
+            if(Num1==Num1_old && Num2==Num2_old){
+                [score,Num1,Num2] = MulQ.pop();
+                MulQ.push([Math.trunc(t2-t1),Num1_old,Num2_old]);
+            }
             Ans=Num1*Num2;
             break;
         case 3:
             op_symbol = String.fromCharCode(247);
             [score,Num1,Num2] = DivQ.pop();
+            if(Num1==Num1_old && Num2==Num2_old){
+                [score,Num1,Num2] = DivQ.pop();
+                DivQ.push([Math.trunc(t2-t1),Num1_old,Num2_old]);
+            }
             Ans = Num1/Num2;
             break;
     }
-    console.log(score);
-    // [Num1,Num2] = [Math.max(Num1,Num2),Math.max(Num1,Num2)]
+    [Num1,Num2] = [Math.max(Num1,Num2),Math.min(Num1,Num2)]
+    TopLine.textContent = Num1.toString();
+    BottomLine.textContent = op_symbol+' '+Num2;
     // console.log(Num1,Num2);
-    TopLine.textContent = Math.max(Num1,Num2);
-    BottomLine.textContent = op_symbol+' '+Math.min(Num1,Num2);
+    //TopLine.textContent = Math.max(Num1,Num2);
+    //BottomLine.textContent = op_symbol+' '+Math.min(Num1,Num2);
     GuessInput.value='';
     GuessInput.select();
     t1=performance.now();
@@ -188,23 +209,26 @@ function CheckAnswer(){
         t2=performance.now();
         switch(op){
             case 0:
-                AddQ.push([Math.trunc(t2-t1),Math.max(Num1,Num2),Math.min(Num1,Num2)])
+                AddQ.push([Math.trunc(t2-t1)+getRandomInt(-50,50),Num1,Num2]);//Math.max(Num1,Num2),Math.min(Num1,Num2)])
                 break;
             case 1:
-                SubQ.push([Math.trunc(t2-t1),Math.max(Num1,Num2),Math.min(Num1,Num2)])
+                SubQ.push([Math.trunc(t2-t1)+getRandomInt(-50,50),Num1,Num2]);//Math.max(Num1,Num2),Math.min(Num1,Num2)])
                 break;
             case 2:
-                MulQ.push([Math.trunc(t2-t1),Math.max(Num1,Num2),Math.min(Num1,Num2)])
+                MulQ.push([Math.trunc(t2-t1)+getRandomInt(-50,50),Num1,Num2]);//Math.max(Num1,Num2),Math.min(Num1,Num2)])
                 break;
             case 3:
-                DivQ.push([Math.trunc(t2-t1),Math.max(Num1,Num2),Math.min(Num1,Num2)])
+                DivQ.push([Math.trunc(t2-t1)+getRandomInt(-50,50),Num1,Num2]);//Math.max(Num1,Num2),Math.min(Num1,Num2)])
                 break;
         }
-        TotalAvg = (TotalAvg*TotalCount+t2-t1)/(TotalCount+1)/1000;
+        //console.log(t2-t1);
+        TotalAvg = (TotalAvg*TotalCount+t2-t1)/(TotalCount+1);
         TotalCount+=1;
-        AvgTimeLine.textContent = Math.trunc(TotalAvg*100)/100+' s';
+        AvgTimeLine.textContent = Math.trunc(TotalAvg*100)/100+' ms';
         TotalCountLine.textContent = TotalCount;
         GenerateNumbers();
+    }else if(GuessInput.value.length>Ans.toString().length){
+        GuessInput.value='';
     }
 }
 

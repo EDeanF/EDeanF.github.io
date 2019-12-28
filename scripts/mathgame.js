@@ -57,11 +57,28 @@ function GenerateRandomNumbers(){
             Num1=Ans*Num2;
             break;
     }
-    $("#top-line").text(Math.max(Num1,Num2).toString());
-    $("#bottom-line").text(op_symbol+' '+Math.min(Num1,Num2));
-    $("#guess").val('');
-    $("#guess").select();
+    [Num1,Num2] = [Math.max(Num1,Num2),Math.min(Num1,Num2)]
+    $("#top-line").text(Num1.toString());
+    $("#bottom-line").text(op_symbol+' '+Num2);
+    GuessInput.value='';
+    GuessInput.select();
     t1=performance.now();
+}
+
+function GetFromQ(Q){
+    let Num1_old=-1;
+    let Num2_old=-1;
+    if((typeof Num1) !== 'undefined'){
+        Num1_old=Num1;
+    }
+    if((typeof Num2) !== 'undefined'){
+        Num2_old=Num2;
+    }
+    [score,Num1,Num2] = Q.pop();
+    if(Num1==Num1_old && Num2==Num2_old){
+        [score,Num1,Num2] = Q.pop();
+        Q.push([Math.trunc(t2-t1),Num1_old,Num2_old]);
+    }
 }
 
 function GenerateNumbers(){
@@ -72,46 +89,30 @@ function GenerateNumbers(){
     switch(op){
         case 0:
             op_symbol = String.fromCharCode(43);
-            [score,Num1,Num2] = AddQ.pop();
-            if(Num1==Num1_old && Num2==Num2_old){
-                [score,Num1,Num2] = AddQ.pop();
-                AddQ.push([Math.trunc(t2-t1),Num1_old,Num2_old]);
-            }
+            GetFromQ(AddQ);
             Ans=Num1+Num2;
             break;
         case 1:
             op_symbol = String.fromCharCode(45);
-            [score,Num1,Num2] = SubQ.pop();
-            if(Num1==Num1_old && Num2==Num2_old){
-                [score,Num1,Num2] = SubQ.pop();
-                SubQ.push([Math.trunc(t2-t1),Num1_old,Num2_old]);
-            }
+            GetFromQ(SubQ);
             Ans=Num1-Num2;
             break;
         case 2:
             op_symbol = String.fromCharCode(215);
-            [score,Num1,Num2] = MulQ.pop();
-            if(Num1==Num1_old && Num2==Num2_old){
-                [score,Num1,Num2] = MulQ.pop();
-                MulQ.push([Math.trunc(t2-t1),Num1_old,Num2_old]);
-            }
+            GetFromQ(MulQ);
             Ans=Num1*Num2;
             break;
         case 3:
             op_symbol = String.fromCharCode(247);
-            [score,Num1,Num2] = DivQ.pop();
-            if(Num1==Num1_old && Num2==Num2_old){
-                [score,Num1,Num2] = DivQ.pop();
-                DivQ.push([Math.trunc(t2-t1),Num1_old,Num2_old]);
-            }
+            GetFromQ(DivQ);
             Ans = Num1/Num2;
             break;
     }
     [Num1,Num2] = [Math.max(Num1,Num2),Math.min(Num1,Num2)]
     $("#top-line").text(Num1.toString());
     $("#bottom-line").text(op_symbol+' '+Num2);
-    $("#guess").val('');
-    $("#guess").select();
+    GuessInput.value='';
+    GuessInput.select();
     t1=performance.now();
 }
 
@@ -144,11 +145,11 @@ function InitQueues(){
 }
 
 function StartGame(){
-    DoAdd = $("#add-check").val();
-    DoSub = $("#sub-check").val();
-    DoMul = $("#mul-check").val();
-    DoDiv = $("#div-check").val();
-    
+    DoAdd = $("#add-check").is(':checked');
+    DoSub = $("#sub-check").is(':checked');
+    DoMul = $("#mul-check").is(':checked');
+    DoDiv = $("#div-check").is(':checked');
+
     // initialize values
     MaxNum = $("#max-num").val();
     TotalAvg=0;
@@ -162,9 +163,8 @@ function StartGame(){
     if(opList.length==0){
         opList.push(0,1,2,3);
     }
-    
-    InitQueues();
 
+    InitQueues();
 
     $("#setup-panels").hide();
     $("#game-panels").show();

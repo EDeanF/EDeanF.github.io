@@ -18,3 +18,11 @@ input[type=number] {
     max-height: 200px;
     object-fit: contain;
 }
+
+.logolink{
+    height: 50px;
+}
+
+.logolink-sm{
+    height: 20px;
+}

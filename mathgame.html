@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
+    <!-- jQuery CSS -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <!-- page head -->
     <title>EDF Personal Page</title>
     <meta name="author" content="E-Dean Fung">
@@ -29,11 +30,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="projects.html">Projects</a>
+              <a class="nav-link active" href="projects.html">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="research.html">Research</a>
             </li>
           </ul>
         </div>
@@ -42,72 +46,73 @@
     
     <!-- page content -->
     <main role="main">
-
         <div class="container py-5" id="setup-panels">
-            <div class="row">
-
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                  <div class="card-body">
-                    <h1>Description</h1>
-                    <hr>
-                    <p>
-                      A simple game for practicing mental arithmetic. 
-                      After going through all possible combinations, 
-                      the program will serve the problems which took you the longest to answer.
-                      Once you are able to answer all problems under a second, 
-                      the program will simply serve problems at random.
-                    </p>
+          <!-- game setup -->
+          <div class="row">
+            <!-- panel 1 -->
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                  <h1>Description</h1>
+                  <hr>
+                  <p>
+                    A simple game for practicing mental arithmetic. 
+                    After going through all possible combinations, 
+                    the program will serve the problems which took you the longest to answer.
+                    Once you are able to answer all problems under a second, 
+                    the program will simply serve problems at random.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- panel 2 -->
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                  <h1>Settings</h1>
+                  <hr>
+                  <div class="my-3">
+                      <h4>Operations</h4>
+                      <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="add-check">
+                          <label class="form-check-label" for="add-check">
+                            Addition
+                          </label>
+                      </div>
+                      <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="sub-check">
+                          <label class="form-check-label" for="sub-check">
+                            Subtraction
+                          </label>
+                      </div>
+                      <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="mul-check">
+                          <label class="form-check-label" for="mul-check">
+                            Multiplication
+                          </label>
+                      </div>
+                      <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="div-check">
+                          <label class="form-check-label" for="div-check">
+                            Division
+                          </label>
+                      </div>
+                  </div>
+                  <div class="my-3">
+                      <h4>Max Number</h4>
+                      <input type="number" class="form-control w-50" min="1" max="100" value="10" id="max-num">
+                  </div>
+                  <div class="my-3">
+                      <button type="button" class="btn btn-primary btn-lg" id="start-button">START</button>
                   </div>
                 </div>
               </div>
-              
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                  <div class="card-body">
-                    <h1>Settings</h1>
-                    <hr>
-                    <div class="my-3">
-                        <h4>Operations</h4>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="add-check">
-                            <label class="form-check-label" for="add-check">
-                              Addition
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="sub-check">
-                            <label class="form-check-label" for="sub-check">
-                              Subtraction
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="mul-check">
-                            <label class="form-check-label" for="mul-check">
-                              Multiplication
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="div-check">
-                            <label class="form-check-label" for="div-check">
-                              Division
-                            </label>
-                        </div>
-                    </div>
-                    <div class="my-3">
-                        <h4>Max Number</h4>
-                        <input type="number" class="form-control w-50" min="1" max="1000" value="10" id="max-num">
-                    </div>
-                    <div class="my-3">
-                        <button type="button" class="btn btn-primary btn-lg" id="start-button">START</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            </div>
 
             </div>
           </div>
 
+          <!-- game interface -->
           <div class="container py-5" id="game-panels" style="display: none">
             <div class="row">
               <div class="col-md-4">
@@ -145,9 +150,9 @@
     <!-- Bootstrap footer-->
     <footer class="footer bg-light py-3  mt-auto ">
       <div class="container text-right">
-        <a href="https://www.linkedin.com/in/edeanfung/" target="_blank" class="px-2"><img src="images/linkedin.png" class="img-fluid logolink-sm"></a>
-        <a href="https://github.com/EDeanF" target="_blank" class="px-2"><img src="images/github.png" class="img-fluid logolink-sm"></a>
-        <a href="https://www.kaggle.com/edeanf" target="_blank" class="px-2"><img src="images/kaggle.png" class="img-fluid logolink-sm"></a>
+        <a href="https://www.linkedin.com/in/edeanfung/" target="_blank" class="px-2"><img src="images/linkedin.svg" class="img-fluid logolink-sm"></a>
+        <a href="https://github.com/EDeanF" target="_blank" class="px-2"><img src="images/github.svg" class="img-fluid logolink-sm"></a>
+        <a href="https://www.kaggle.com/edeanf" target="_blank" class="px-2"><img src="images/kaggle.svg" class="img-fluid logolink-sm"></a>
         © 2020 
       </div>
     </footer>
@@ -158,9 +163,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!-- Game Scripts-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> 
     <script src="scripts/priority_queue.js"></script>
     <script src="scripts/mathgame.js"></script>
-</body>
+  </body>
 </html>

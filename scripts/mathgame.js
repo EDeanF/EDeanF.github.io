@@ -160,7 +160,13 @@ function StartGame(){
 
     $("#avg-time").text(TotalAvg.toString());
     $("#total-ans").text(TotalCount);
-    $(document).scrollTop(0);
+    //$(document).scrollTop(0);
+    $("#guess").change(function(){
+        $(document).scrollTop(0);
+    })
+    $("#guess").select(function(){
+        $(document).scrollTop(0);
+    })
     GenerateNumbers();
 }
 

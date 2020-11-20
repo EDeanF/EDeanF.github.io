@@ -26,3 +26,7 @@ input[type=number] {
 .logolink-sm{
     height: 20px;
 }
+
+.img-button:hover{
+    opacity: 0.5;
+}

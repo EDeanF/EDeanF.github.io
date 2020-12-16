@@ -259,11 +259,6 @@ const Interface = {
         $('#total-ans').text(TotalCount);
     },
     limitRange : function(){
-        if( parseInt($('#min-num').val()) >= parseInt($('#max-num').val()) ){
-            $('#min-num').effect('shake',{distance: 10},'fast');
-            $('#max-num').effect('shake',{distance: 10},'fast');
-            $('#min-num').val(Math.floor(parseInt($('#max-num').val())-10));
-        }
         if( parseInt($('#min-num').val()) < parseInt($('#min-num').attr('min')) ){
             $('#min-num').effect('shake',{distance: 10},'fast');
             $('#min-num').val(parseInt($('#min-num').attr('min')));
@@ -299,6 +294,11 @@ const Game = {
         // grab Game variables
         this.reset();
         
+        if(this.minNum>=this.maxNum){
+            $('#max-num').effect('shake',{distance: 10},'fast');
+            return;
+        }
+
         for(let check of $('input:checked')){
             this.problemArray.push(
                 new ProblemTracker(

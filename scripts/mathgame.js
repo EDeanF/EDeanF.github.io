@@ -255,7 +255,7 @@ const Interface = {
             TotalCount+=problem.numSolved;
             TotalTime+=problem.timeSolved;
         }
-        $('#avg-time').text((TotalTime/TotalCount/1000).toString()+' s');
+        $('#avg-time').text((TotalTime/TotalCount/1000).toFixed(2).toString()+' s');
         $('#total-ans').text(TotalCount);
     },
     limitRange : function(){

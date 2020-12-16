@@ -101,7 +101,6 @@ ProblemTracker.prototype.next = function(){
             [num1,num2] = this.unsolved.pop();
         }
     }else{
-        console.log(this.fractionSaved());
         [dt,num1,num2] = this.Q.pop();
         this.S.delete([num1,num2].join(','));
     }
@@ -294,6 +293,7 @@ const Game = {
         // grab Game variables
         this.reset();
         
+        // check that minNum and maxNum are valid
         if(this.minNum>=this.maxNum){
             $('#max-num').effect('shake',{distance: 10},'fast');
             return;
@@ -306,15 +306,33 @@ const Game = {
                     this.minNum, this.maxNum
                 )
             );
+            // if it is has no valid problems, remove
+            let N = this.problemArray.length;
+            if(this.problemArray[N-1].numProbs==0){
+                this.problemArray.pop();
+            }
         }
+
         // if nothing selected default to all
-        if(this.problemArray.length==0){
+        if($('input:checked').length==0){
             for(let [name,type] of ProblemMapper.entries()){
                 this.problemArray.push(
                     new ProblemTracker(type,this.minNum, this.maxNum)
                 );
             }
+            // if it is has no valid problems, remove
+            let N = this.problemArray.length;
+            if(this.problemArray[N-1].numProbs==0){
+                this.problemArray.pop();
+            }
         }
+        
+        // check there are at least some valid problems
+        if(this.problemArray.length==0){
+            $('#max-num').effect('shake',{distance: 10},'fast');
+            return;
+        }
+
         // setup interface
         Interface.showGame(this);
         // generate first problem
